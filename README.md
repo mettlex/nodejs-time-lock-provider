@@ -27,3 +27,4 @@ $ npm run start:prod
 
 ## License
 
+This repository is under [AGPLv3](./LICENSE.md) license.
