@@ -6,6 +6,7 @@ import {
 import { DocumentBuilder, SwaggerModule } from "@nestjs/swagger";
 import helmet from "@fastify/helmet";
 import { AppModule } from "./app.module";
+import { ValidationPipe } from "@nestjs/common";
 
 async function bootstrap() {
   const app = await NestFactory.create<NestFastifyApplication>(
@@ -34,6 +35,12 @@ async function bootstrap() {
   });
 
   app.enableCors();
+
+  app.useGlobalPipes(
+    new ValidationPipe({
+      stopAtFirstError: true,
+    }),
+  );
 
   await app.listen(process.env.PORT || 3000, process.env.HOST || "0.0.0.0");
 }

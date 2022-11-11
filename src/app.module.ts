@@ -7,6 +7,9 @@ import { AppService } from "./app.service";
 import { AuthModule } from "./auth/auth.module";
 import { TimeModule } from "./time/time.module";
 import { TimeService } from "./time/time.service";
+import { KeysModule } from "./keys/keys.module";
+import { TypeOrmModule } from "@nestjs/typeorm";
+import { Key } from "./keys/entities/key.entity";
 
 @Module({
   imports: [
@@ -18,6 +21,22 @@ import { TimeService } from "./time/time.service";
     AuthModule,
     ScheduleModule.forRoot(),
     TimeModule,
+    KeysModule,
+    TypeOrmModule.forRoot({
+      type: "postgres",
+      host: process.env.PG_DATABASE_HOST,
+      port: +process.env.PG_DATABASE_PORT,
+      database: process.env.PG_DATABASE_NAME,
+      username: process.env.PG_DATABASE_USER,
+      password: process.env.PG_DATABASE_PASSWORD,
+      ssl: process.env.PG_DATABASE_SSL === "true",
+      extra: {
+        options: process.env.PG_DATABASE_EXTRA_OPTIONS,
+      },
+      synchronize: process.env.SYNC_DATABASE === "true",
+      autoLoadEntities: true,
+      dropSchema: process.env.DROP_DATABASE === "true",
+    }),
   ],
   controllers: [AppController],
   providers: [AppService, TimeService],

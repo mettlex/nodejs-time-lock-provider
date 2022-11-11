@@ -1,5 +1,19 @@
 import { ApiProperty } from "@nestjs/swagger";
 
+export class InternalServerErrorResponse {
+  @ApiProperty({
+    enum: [500],
+    example: 500,
+  })
+  statusCode: 500;
+
+  @ApiProperty({
+    enum: ["Internal Server Error"],
+    example: "Internal Server Error",
+  })
+  message: "Internal Server Error";
+}
+
 export class UnauthorizedResponse {
   @ApiProperty({
     enum: [401],
