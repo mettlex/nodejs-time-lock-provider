@@ -15,6 +15,10 @@ async function bootstrap() {
 
   const config = new DocumentBuilder()
     .setTitle("Time-Lock Provider")
+    .addApiKey(
+      { type: "apiKey", name: "API_ACCESS_TOKEN", in: "header" },
+      "API_ACCESS_TOKEN",
+    )
     .setDescription("A key-service provider for the Time-Lock encryption")
     .setVersion("1.0")
     .addTag("key")
@@ -23,7 +27,7 @@ async function bootstrap() {
 
   const document = SwaggerModule.createDocument(app, config);
 
-  SwaggerModule.setup("api", app, document);
+  SwaggerModule.setup("openapi", app, document);
 
   app.register(helmet, {
     contentSecurityPolicy: false,
