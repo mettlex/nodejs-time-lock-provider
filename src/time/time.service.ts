@@ -10,7 +10,11 @@ export class TimeService {
   @Cron(CronExpression.EVERY_SECOND)
   async updateTime() {
     try {
-      this.timestamp = (await getTimestamp()).timestamp;
+      const t = (await getTimestamp()).timestamp;
+
+      if (t > 1668265525) {
+        this.timestamp = t;
+      }
     } catch (error) {
       this.logger.debug(error);
     }

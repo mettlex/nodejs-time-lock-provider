@@ -12,6 +12,9 @@ import { ThrottlerBehindProxyGuard } from "src/rate-limit/throttler-behind-proxy
 import routes from "src/routes";
 import { Throttle } from "@nestjs/throttler";
 import { DeleteKeyDto } from "./dto/delete-key.dto";
+import { ReadKeyDto } from "./dto/read-key.dto";
+import { StatusKeyDto } from "./dto/status-key.dto";
+import { UnlocKeyDto } from "./dto/unlock-key.dto";
 
 @Controller()
 @ApiSecurity("API_ACCESS_TOKEN", ["API_ACCESS_TOKEN"])
@@ -37,11 +40,13 @@ export class KeysController {
     return this.keysService.create(createKeyDto);
   }
 
+  @HttpCode(200)
   @Post(routes.READ)
-  findOne() {
-    return this.keysService.findOne();
+  findOne(@Body() readKeyDto: ReadKeyDto) {
+    return this.keysService.findOne(readKeyDto);
   }
 
+  @HttpCode(200)
   @Post(routes.UPDATE)
   update(@Body() updateKeyDto: UpdateKeyDto) {
     return this.keysService.update(updateKeyDto);
@@ -53,13 +58,15 @@ export class KeysController {
     return this.keysService.remove(deleteKeyDto);
   }
 
+  @HttpCode(200)
   @Post(routes.STATUS)
-  status() {
-    return "";
+  status(@Body() statusKeyDto: StatusKeyDto) {
+    return this.keysService.status(statusKeyDto);
   }
 
+  @HttpCode(200)
   @Post(routes.UNLOCK)
-  unlock() {
-    return "";
+  unlock(@Body() unlocKeyDto: UnlocKeyDto) {
+    return this.keysService.unlock(unlocKeyDto);
   }
 }
