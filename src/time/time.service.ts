@@ -7,7 +7,7 @@ export class TimeService {
   private readonly logger = new Logger(TimeService.name);
   public timestamp: number;
 
-  @Cron(CronExpression.EVERY_SECOND)
+  @Cron(CronExpression.EVERY_5_SECONDS)
   async updateTime() {
     try {
       const t = (await getTimestamp()).timestamp;
