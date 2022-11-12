@@ -9,7 +9,7 @@ import { TimeModule } from "./time/time.module";
 import { TimeService } from "./time/time.service";
 import { KeysModule } from "./keys/keys.module";
 import { TypeOrmModule } from "@nestjs/typeorm";
-import { Key } from "./keys/entities/key.entity";
+import { IpfsModule } from "./ipfs/ipfs.module";
 
 @Module({
   imports: [
@@ -22,6 +22,7 @@ import { Key } from "./keys/entities/key.entity";
     ScheduleModule.forRoot(),
     TimeModule,
     KeysModule,
+    IpfsModule,
     TypeOrmModule.forRoot({
       type: "postgres",
       host: process.env.PG_DATABASE_HOST,
