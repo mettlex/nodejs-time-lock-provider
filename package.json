@@ -5,6 +5,9 @@
   "author": "Mettle X",
   "private": true,
   "license": "AGPLv3",
+  "engines": {
+    "node": "18"
+  },
   "scripts": {
     "prebuild": "rimraf dist",
     "build": "nest build",
