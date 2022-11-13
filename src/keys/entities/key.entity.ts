@@ -1,6 +1,6 @@
 import { Column, Entity, PrimaryColumn } from "typeorm";
 
-@Entity()
+@Entity("keys")
 export class Key {
   @PrimaryColumn({
     type: "uuid",
