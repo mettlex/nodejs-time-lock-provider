@@ -29,19 +29,18 @@ export const getTimestamp = async () => {
     ...solanaUrls.map((url) =>
       getCurrentTimestampFromSolana({
         url,
+      }).catch(async (e) => {
+        console.log(e);
+        return timeout(4000);
       }),
     ),
   );
 
   const solanaTimestampPromise = new Promise((resolve) => {
     solanaPromises.map((x) =>
-      x
-        .then((x) => {
-          resolve(x);
-        })
-        .catch((e) => {
-          console.log(e);
-        }),
+      x.then((x) => {
+        resolve(x);
+      }),
     );
   }) as Promise<number | null>;
 
@@ -51,6 +50,9 @@ export const getTimestamp = async () => {
       ...ethereumUrls.map((url) =>
         getCurrentTimestampFromEthereum({
           url,
+        }).catch(async (e) => {
+          console.log(e);
+          return timeout(4000);
         }),
       ),
     ]),
@@ -58,13 +60,9 @@ export const getTimestamp = async () => {
 
   const ethereumTimestampPromise = new Promise((resolve) => {
     solanaPromises.map((x) =>
-      x
-        .then((x) => {
-          resolve(x);
-        })
-        .catch((e) => {
-          console.log(e);
-        }),
+      x.then((x) => {
+        resolve(x);
+      }),
     );
   }) as Promise<number | null>;
 
@@ -73,19 +71,18 @@ export const getTimestamp = async () => {
     ...ethereumLikeUrls.map((url) =>
       getCurrentTimestampFromEthereum({
         url,
+      }).catch(async (e) => {
+        console.log(e);
+        return timeout(4000);
       }),
     ),
   );
 
   const ethereumLikeTimestampPromise = new Promise((resolve) => {
     ethereumLikePromises.map((x) =>
-      x
-        .then((x) => {
-          resolve(x);
-        })
-        .catch((e) => {
-          console.log(e);
-        }),
+      x.then((x) => {
+        resolve(x);
+      }),
     );
   }) as Promise<number | null>;
 
@@ -96,19 +93,18 @@ export const getTimestamp = async () => {
     ...nearUrls.map((url) =>
       getCurrentTimestampFromNEAR({
         url,
+      }).catch(async (e) => {
+        console.log(e);
+        return timeout(4000);
       }),
     ),
   );
 
   const nearTimestampPromise = new Promise((resolve) => {
     nearPromises.forEach((x) =>
-      x
-        .then((x) => {
-          resolve(x);
-        })
-        .catch((e) => {
-          console.log(e);
-        }),
+      x.then((x) => {
+        resolve(x);
+      }),
     );
   }) as Promise<number | null>;
 

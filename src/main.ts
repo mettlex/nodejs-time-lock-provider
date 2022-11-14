@@ -8,6 +8,20 @@ import helmet from "@fastify/helmet";
 import { AppModule } from "./app.module";
 import { ValidationPipe } from "@nestjs/common";
 
+process.on("unhandledRejection", (err, promise) => {
+  console.error(
+    "Unhandled rejection (promise: ",
+    promise,
+    ", reason: ",
+    err,
+    ").",
+  );
+});
+
+process.on("uncaughtException", (err) => {
+  console.log("Caught exception: ", err);
+});
+
 async function bootstrap() {
   const app = await NestFactory.create<NestFastifyApplication>(
     AppModule,
