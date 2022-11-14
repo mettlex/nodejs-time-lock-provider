@@ -16,6 +16,12 @@ const ethereumLikeUrls = [
   "https://rpc-mainnet.kcc.network",
 ];
 
+const nearUrls = [
+  "https://rpc.mainnet.near.org",
+  "https://public-rpc.blockpi.io/http/near",
+  "https://near-mainnet-rpc.allthatnode.com:3030",
+];
+
 export const getTimestamp = async () => {
   const solanaPromises: Promise<number | null>[] = [];
   const ethereumPromises: Promise<number | null>[] = [];
@@ -26,15 +32,19 @@ export const getTimestamp = async () => {
     ...solanaUrls.map((url) =>
       getCurrentTimestampFromSolana({
         url,
-      }).catch(() => null),
+      }),
     ),
   );
 
   const solanaTimestampPromise = new Promise((resolve) => {
     solanaPromises.map((x) =>
-      x.then((x) => {
-        resolve(x);
-      }),
+      x
+        .then((x) => {
+          resolve(x);
+        })
+        .catch((e) => {
+          console.log(e);
+        }),
     );
   }) as Promise<number | null>;
 
@@ -44,16 +54,20 @@ export const getTimestamp = async () => {
       ...ethereumUrls.map((url) =>
         getCurrentTimestampFromEthereum({
           url,
-        }).catch(() => null),
+        }),
       ),
     ]),
   );
 
   const ethereumTimestampPromise = new Promise((resolve) => {
     solanaPromises.map((x) =>
-      x.then((x) => {
-        resolve(x);
-      }),
+      x
+        .then((x) => {
+          resolve(x);
+        })
+        .catch((e) => {
+          console.log(e);
+        }),
     );
   }) as Promise<number | null>;
 
@@ -62,15 +76,42 @@ export const getTimestamp = async () => {
     ...ethereumLikeUrls.map((url) =>
       getCurrentTimestampFromEthereum({
         url,
-      }).catch(() => null),
+      }),
     ),
   );
 
   const ethereumLikeTimestampPromise = new Promise((resolve) => {
     ethereumLikePromises.map((x) =>
-      x.then((x) => {
-        resolve(x);
+      x
+        .then((x) => {
+          resolve(x);
+        })
+        .catch((e) => {
+          console.log(e);
+        }),
+    );
+  }) as Promise<number | null>;
+
+  const nearPromises: Promise<number | null>[] = [];
+
+  nearPromises.push(
+    timeout(),
+    ...nearUrls.map((url) =>
+      getCurrentTimestampFromNEAR({
+        url,
       }),
+    ),
+  );
+
+  const nearTimestampPromise = new Promise((resolve) => {
+    nearPromises.forEach((x) =>
+      x
+        .then((x) => {
+          resolve(x);
+        })
+        .catch((e) => {
+          console.log(e);
+        }),
     );
   }) as Promise<number | null>;
 
@@ -78,6 +119,7 @@ export const getTimestamp = async () => {
     solanaTimestampPromise,
     ethereumTimestampPromise,
     ethereumLikeTimestampPromise,
+    nearTimestampPromise,
   ]);
 
   let timestamp = 0;
@@ -165,6 +207,35 @@ async function getCurrentTimestampFromEthereum({
   ).json()) as { result: { timestamp: string } };
 
   return Number(response.result.timestamp);
+}
+
+async function getCurrentTimestampFromNEAR({
+  url,
+}: {
+  url: string;
+}): Promise<number> {
+  const body = JSON.stringify({
+    jsonrpc: "2.0",
+    id: "dontcare",
+    method: "status",
+    params: [],
+  });
+
+  const requestOptions = {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body,
+  };
+
+  const json = await fetch("https://rpc.mainnet.near.org", requestOptions).then(
+    (response) => response.json(),
+  );
+
+  return Math.round(
+    new Date(json.result.sync_info.latest_block_time).getTime() / 1000,
+  );
 }
 
 function timeout(ms = 3000) {

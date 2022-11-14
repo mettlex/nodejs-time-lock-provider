@@ -1,6 +1,6 @@
 import { Injectable, Logger } from "@nestjs/common";
 import { Cron, CronExpression } from "@nestjs/schedule";
-import { getTimestamp } from "./utils";
+import { getTimestamp } from "./time.utils";
 
 @Injectable()
 export class TimeService {
