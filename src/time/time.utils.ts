@@ -10,10 +10,7 @@ const ethereumUrls = ["https://cloudflare-eth.com"];
 const ethereumLikeUrls = [
   "https://polygon-rpc.com",
   "https://bsc-dataseed.binance.org",
-  "https://rpc.xdaichain.com",
   "https://api.avax.network/ext/bc/C/rpc",
-  "https://rpc.ftm.tools",
-  "https://rpc-mainnet.kcc.network",
 ];
 
 const nearUrls = [
