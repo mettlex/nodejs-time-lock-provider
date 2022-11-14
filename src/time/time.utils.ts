@@ -133,7 +133,7 @@ async function getCurrentTimestampFromSolana({
   url,
 }: {
   url: string;
-}): Promise<number> {
+}): Promise<number | null> {
   const headers = {
     "Content-Type": "application/json",
   };
@@ -144,11 +144,20 @@ async function getCurrentTimestampFromSolana({
     method: "POST",
     body: query,
     headers,
-  });
+  }).catch((_e) => null);
 
-  const version = (
-    (await response.json()) as { result: { "solana-core": string } }
-  ).result["solana-core"];
+  let version: string | null;
+
+  try {
+    version = ((await response.json()) as { result: { "solana-core": string } })
+      .result["solana-core"];
+  } catch (error) {
+    version = null;
+  }
+
+  if (!version || !response) {
+    return null;
+  }
 
   let methodName = "getLatestBlockhash";
 
@@ -166,7 +175,11 @@ async function getCurrentTimestampFromSolana({
 
   const slot = (
     (await response.json()) as { result: { context: { slot: number } } }
-  ).result.context.slot;
+  ).result?.context?.slot;
+
+  if (!slot) {
+    return null;
+  }
 
   query = `{"jsonrpc":"2.0","id":1, "method":"getBlockTime","params":[${slot}]}`;
 
