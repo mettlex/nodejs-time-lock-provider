@@ -4,26 +4,56 @@
 
 ## Description
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript repository.
+[Nest](https://github.com/nestjs/nest) framework TypeScript repository of a Time-Lock server.
 
 ## Installation
 
 ```bash
-$ npm install
+npm install
+```
+
+## Environment Variables
+
+```
+API_ACCESS_TOKEN=SET_SOMETHING_RANDOM
+
+PG_DATABASE_HOST=_YOUR_POSTGRES_DATABASE_HOST_URL
+PG_DATABASE_PORT=_POSTGRES_DATABASE_PORT
+PG_DATABASE_NAME=_POSTGRES_DATABASE_NAME
+PG_DATABASE_USER=_POSTGRES_DATABASE_USERNAME
+PG_DATABASE_PASSWORD=_POSTGRES_DATABASE_PASSWORD
+PG_DATABASE_EXTRA_OPTIONS=_CockroachDB_extra_options
+PG_DATABASE_SSL=true
+
+SYNC_DATABASE=false
+DROP_DATABASE=false
 ```
 
 ## Running the app
 
 ```bash
 # development
-$ npm run start
-
-# watch mode
-$ npm run start:dev
+npm run start:dev
 
 # production mode
-$ npm run start:prod
+npm run start:prod
 ```
+
+## OpenAPI Documentation Endpoints
+
+```
+/openapi
+/openapi-json
+/openapi-yaml
+```
+Examples:
+
+- https://timelock.onrender.com/openapi
+- https://timelock.onrender.com/openapi-json
+- https://timelock.onrender.com/openapi-yaml
+- https://timelock.cyclic.app/openapi
+- https://timelock.cyclic.app/openapi-json
+- https://timelock.cyclic.app/openapi-yaml
 
 ## License
 
